@@ -492,6 +492,119 @@ public class Ex4 {
 		timer.start();
 		
 		// parte que pode fazer continuação
+		
+		File correnteMoney = new File(
+		        pastaUsuario,
+		        "ContaCorrenteMoney.txt"
+		);
+
+		File poupancaMoney = new File(
+		        pastaUsuario,
+		        "Poupanca.txt"
+		);
+
+		// garante que a conta corrente existe
+		if (!correnteMoney.exists()) {
+		    try {
+		        BufferedWriter escritor = new BufferedWriter(new FileWriter(correnteMoney));
+		        escritor.write("0");
+		        escritor.close();
+		    } catch (IOException erro) {
+		        erro.printStackTrace();
+		    }
+		}
+
+		// garante que a poupança existe
+		if (!poupancaMoney.exists()) {
+		    try {
+		        BufferedWriter escritor = new BufferedWriter(new FileWriter(poupancaMoney));
+		        escritor.write("0");
+		        escritor.close();
+		    } catch (IOException erro) {
+		        erro.printStackTrace();
+		    }
+		}
+
+		// pergunta o valor
+		JLabel perguntaValor = new JLabel("Quanto quer colocar na poupança?");
+		perguntaValor.setBounds(20, 20, 300, 30);
+		login.add(perguntaValor);
+
+		// campo do valor
+		JTextField valorAdicionar = new JTextField();
+		valorAdicionar.setBounds(20, 150, 200, 30);
+		login.add(valorAdicionar);
+
+		// botão
+		JButton adicionar = new JButton("Adicionar");
+		adicionar.setBounds(230, 150, 120, 30);
+		login.add(adicionar);
+
+		// ação do botão
+		adicionar.addActionListener(e -> {
+		    try {
+		        double valor = Double.parseDouble(valorAdicionar.getText());
+
+		        // verifica se o valor é válido
+		        if (valor <= 0) {
+		            JOptionPane.showMessageDialog(
+		                    login,
+		                    "Digite um valor maior que zero!"
+		            );
+		            return;
+		        }
+
+		        // lê o saldo da conta corrente
+		        BufferedReader leitorCorrente = new BufferedReader(new FileReader(correnteMoney));
+		        double saldoCorrente = Double.parseDouble(leitorCorrente.readLine());
+		        leitorCorrente.close();
+
+		        // lê o saldo da poupança
+		        BufferedReader leitorPoupanca = new BufferedReader(new FileReader(poupancaMoney));
+		        double saldoPoupanca = Double.parseDouble(leitorPoupanca.readLine());
+		        leitorPoupanca.close();
+
+		        // verifica se tem dinheiro suficiente na corrente
+		        if (valor > saldoCorrente) {
+		            JOptionPane.showMessageDialog(
+		                    login,
+		                    "Você não tem dinheiro suficiente na conta corrente!"
+		            );
+		            return;
+		        }
+
+		        // faz a subtração da conta corrente
+		        saldoCorrente = saldoCorrente - valor;
+
+		        // pega o valor que foi retirado da corrente
+		        double valorRetirado = valor;
+
+		        // adiciona o valor retirado na poupança
+		        saldoPoupanca = saldoPoupanca + valorRetirado;
+
+		        // salva a nova conta corrente
+		        BufferedWriter escritorCorrente = new BufferedWriter(new FileWriter(correnteMoney));
+		        escritorCorrente.write(String.valueOf(saldoCorrente));
+		        escritorCorrente.close();
+
+		        // salva a nova poupança
+		        BufferedWriter escritorPoupanca = new BufferedWriter(new FileWriter(poupancaMoney));
+		        escritorPoupanca.write(String.valueOf(saldoPoupanca));
+		        escritorPoupanca.close();
+
+		        // limpa o campo
+		        valorAdicionar.setText("");
+
+		    } catch (NumberFormatException erro) {
+		        JOptionPane.showMessageDialog(
+		                login,
+		                "Digite um número válido!"
+		        );
+		    } catch (IOException erro) {
+		        erro.printStackTrace();
+		    }
+		});
+
 
 		login.setVisible(true);
 		
