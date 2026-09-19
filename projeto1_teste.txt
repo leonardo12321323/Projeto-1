@@ -500,7 +500,7 @@ public class Ex4 {
 
 		File poupancaMoney = new File(
 		        pastaUsuario,
-		        "Poupanca.txt"
+		        "Poupança.txt"
 		);
 
 		// garante que a conta corrente existe
@@ -560,7 +560,7 @@ public class Ex4 {
 		        leitorCorrente.close();
 
 		        // lê o saldo da poupança
-		        BufferedReader leitorPoupanca = new BufferedReader(new FileReader(poupancaMoney));
+		        BufferedReader leitorPoupanca = new BufferedReader(new FileReader(poupançaMoney));
 		        double saldoPoupanca = Double.parseDouble(leitorPoupanca.readLine());
 		        leitorPoupanca.close();
 
@@ -588,7 +588,7 @@ public class Ex4 {
 		        escritorCorrente.close();
 
 		        // salva a nova poupança
-		        BufferedWriter escritorPoupanca = new BufferedWriter(new FileWriter(poupancaMoney));
+				BufferedWriter escritorPoupanca = new BufferedWriter(new 							FileWriter(poupançaMoney));
 		        escritorPoupanca.write(String.valueOf(saldoPoupanca));
 		        escritorPoupanca.close();
 
@@ -650,7 +650,7 @@ public class Ex4 {
 						correnteMoney.createNewFile();
 						if (money.exists()) {
 							
-							BufferedReader leitor = new BufferedReader(new FileReader(money));
+							BufferedReader leitor = new BufferedReader(new FileReader(ContaCorrenteMoney.txt));
 							String dinheiro = leitor.readLine();
 							leitor.close();
 							BufferedWriter escritor = new BufferedWriter(new FileWriter(correnteMoney));
